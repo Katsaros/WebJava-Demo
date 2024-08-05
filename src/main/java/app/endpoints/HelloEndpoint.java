@@ -1,6 +1,7 @@
 package app.endpoints;
 
-import com.megadeploy.annotations.*;
+import com.megadeploy.annotations.core.Endpoint;
+import com.megadeploy.annotations.request.*;
 
 @Endpoint("/hello")
 public class HelloEndpoint {
