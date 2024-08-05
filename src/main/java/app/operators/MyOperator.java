@@ -1,8 +1,9 @@
 package app.operators;
 
-import com.megadeploy.annotations.core.AutoInitialize;
 
-@AutoInitialize
+import com.megadeploy.annotations.core.Operator;
+
+@Operator
 public class MyOperator {
 
     private final String operatorName;
