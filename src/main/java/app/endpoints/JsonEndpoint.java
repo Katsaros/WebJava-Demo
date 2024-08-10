@@ -4,7 +4,7 @@ import app.operators.MyOperator;
 import com.megadeploy.annotations.core.Endpoint;
 import com.megadeploy.annotations.initializer.AutoInitialize;
 import com.megadeploy.annotations.request.Get;
-import com.megadeploy.dataObjects.ApiResponse;
+import com.megadeploy.dataobjects.ApiResponse;
 import com.megadeploy.enumerations.ApiStatus;
 
 @Endpoint("/json")
