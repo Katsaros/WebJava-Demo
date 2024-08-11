@@ -1,42 +1,41 @@
 package app.operators;
 
+import app.storages.UserStorage;
 import com.megadeploy.annotations.core.Operator;
 import com.megadeploy.annotations.initializer.AutoInitialize;
-import com.megadeploy.annotations.operators.InMemoryDatabaseOperator;
 import com.megadeploy.storages.InMemoryStorage;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Operator
-public class MyInMemoryOperator {
+public class UserOperator {
 
-    private InMemoryStorage myInMemoryStorage;
+    private UserStorage userStorage;
 
     @AutoInitialize
-    public MyInMemoryOperator(InMemoryStorage inMemoryStorage) {
-        this.myInMemoryStorage = inMemoryStorage;
+    public UserOperator(UserStorage userStorage) {
+        this.userStorage = userStorage;
     }
 
     public void createMyTable() throws SQLException {
         String tableDefinition = "id INT PRIMARY KEY, name VARCHAR(255)";
-        myInMemoryStorage.createTable("MyTable", tableDefinition);
+        userStorage.createTable("UserTable", tableDefinition);
     }
 
     public void insertMyData(int id, String name) throws SQLException {
-        myInMemoryStorage.insertData("MyTable", "id, name", id + ", '" + name + "'");
+        userStorage.insertData("MyTable", "id, name", id + ", '" + name + "'");
     }
 
     public ResultSet getMyData(int id) throws SQLException {
-        return myInMemoryStorage.getData("MyTable", "*", "id = " + id);
+        return userStorage.getData("MyTable", "*", "id = " + id);
     }
 
     public void updateMyData(int id, String newName) throws SQLException {
-        myInMemoryStorage.updateData("MyTable", "name = '" + newName + "'", "id = " + id);
+        userStorage.updateData("MyTable", "name = '" + newName + "'", "id = " + id);
     }
 
     public void deleteMyData(int id) throws SQLException {
-        myInMemoryStorage.deleteData("MyTable", "id = " + id);
+        userStorage.deleteData("MyTable", "id = " + id);
     }
 }
