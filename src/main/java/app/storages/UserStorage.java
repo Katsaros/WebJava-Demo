@@ -1,40 +1,46 @@
 package app.storages;
 
 
+import app.dataobjects.User;
 import com.megadeploy.annotations.core.Storage;
 import com.megadeploy.annotations.initializer.AutoInitialize;
-import com.megadeploy.storages.InMemoryStorage;
+import com.megadeploy.database.storagemanagers.InMemoryStorageManager;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Storage
-public class UserStorage extends InMemoryStorage {
+public class UserStorage {
+    private final InMemoryStorageManager inMemoryStorageManager;
 
     @AutoInitialize
-    public UserStorage(Connection connection) {
-        super(connection);
+    public UserStorage(InMemoryStorageManager inMemoryStorageManager) {
+        this.inMemoryStorageManager = inMemoryStorageManager;
     }
 
-    public void createMyCustomTable() throws SQLException {
-        String tableDefinition = "id INT PRIMARY KEY, name VARCHAR(255)";
-        createTable("MyCustomTable", tableDefinition);
+    public void createTable() throws SQLException {
+        inMemoryStorageManager.createTable(User.class);
     }
 
-    public void insertCustomData(int id, String name) throws SQLException {
-        insertData("MyCustomTable", "id, name", id + ", '" + name + "'");
+    public void saveUser(User user) throws SQLException, IllegalAccessException, NoSuchFieldException {
+        inMemoryStorageManager.save(user);
     }
 
-    public ResultSet getCustomData(int id) throws SQLException {
-        return getData("MyCustomTable", "*", "id = " + id);
+    public void updateUser(User user) throws SQLException, IllegalAccessException, NoSuchFieldException {
+        inMemoryStorageManager.update(user);
     }
 
-    public void updateCustomData(int id, String newName) throws SQLException {
-        updateData("MyCustomTable", "name = '" + newName + "'", "id = " + id);
+    public void deleteUser(String id) throws SQLException {
+        inMemoryStorageManager.delete(User.class, id);
     }
 
-    public void deleteCustomData(int id) throws SQLException {
-        deleteData("MyCustomTable", "id = " + id);
+    // Retrieve a user by ID
+    public User getUser(String id) throws SQLException {
+        return inMemoryStorageManager.get(User.class, id);
+    }
+
+    // Retrieve all users
+    public List<User> getAllUsers() throws SQLException {
+        return inMemoryStorageManager.getAll(User.class);
     }
 }

@@ -1,41 +1,48 @@
 package app.operators;
 
+import app.dataobjects.User;
 import app.storages.UserStorage;
 import com.megadeploy.annotations.core.Operator;
 import com.megadeploy.annotations.initializer.AutoInitialize;
-import com.megadeploy.storages.InMemoryStorage;
-
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Operator
 public class UserOperator {
 
-    private UserStorage userStorage;
+    private final UserStorage userStorage;
 
     @AutoInitialize
     public UserOperator(UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
-    public void createMyTable() throws SQLException {
-        String tableDefinition = "id INT PRIMARY KEY, name VARCHAR(255)";
-        userStorage.createTable("UserTable", tableDefinition);
+    public void createUser(String name, int age) throws SQLException, IllegalAccessException, NoSuchFieldException {
+        User user = new User();
+        user.setName(name);
+        user.setAge(age);
+        userStorage.saveUser(user);
     }
 
-    public void insertMyData(int id, String name) throws SQLException {
-        userStorage.insertData("MyTable", "id, name", id + ", '" + name + "'");
+    public void updateUser(String id, String name, int age) throws SQLException, IllegalAccessException, NoSuchFieldException {
+        User user = new User();
+        user.setId(id);
+        user.setName(name);
+        user.setAge(age);
+        userStorage.updateUser(user);
     }
 
-    public ResultSet getMyData(int id) throws SQLException {
-        return userStorage.getData("MyTable", "*", "id = " + id);
+    public void deleteUser(String id) throws SQLException {
+        userStorage.deleteUser(id);
     }
 
-    public void updateMyData(int id, String newName) throws SQLException {
-        userStorage.updateData("MyTable", "name = '" + newName + "'", "id = " + id);
+    // Get a user by ID
+    public User getUser(String id) throws SQLException {
+        return userStorage.getUser(id);
     }
 
-    public void deleteMyData(int id) throws SQLException {
-        userStorage.deleteData("MyTable", "id = " + id);
+    // Get all users
+    public List<User> getAllUsers() throws SQLException {
+        return userStorage.getAllUsers();
     }
 }
