@@ -1,1 +1,2 @@
 enableInMemoryDatabase: true
+enableDummyStorageManager: true

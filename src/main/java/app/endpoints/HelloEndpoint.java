@@ -3,10 +3,10 @@ package app.endpoints;
 import com.megadeploy.annotations.core.Endpoint;
 import com.megadeploy.annotations.request.*;
 
-@Endpoint("/hello")
+@Endpoint("/api")
 public class HelloEndpoint {
 
-    @Get("/")
+    @Get("/hello")
     public void sayHello() {
         System.out.println("Hello, World!");
     }
